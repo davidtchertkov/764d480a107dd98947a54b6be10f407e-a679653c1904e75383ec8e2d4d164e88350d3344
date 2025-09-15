@@ -67,7 +67,7 @@ jobs:
       run: |
         echo "Running flake8 linting..."
         flake8 . --count --statistics --show-source || echo "Flake8 found issues but continuing pipeline"
-        continue-on-error: true
+      continue-on-error: true
     
     - name: Static type checking (mypy)
       run: |
