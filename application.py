@@ -1,7 +1,9 @@
-from cs50 import SQL
-from flask_session import Session
-from flask import Flask, render_template, redirect, request, session
+# Erwartet (korrekt):
 from datetime import datetime
+
+from cs50 import SQL
+from flask import Flask, redirect, render_template, request, session
+from flask_session import Session
 
 # # Instantiate Flask object named app
 app = Flask(__name__)
