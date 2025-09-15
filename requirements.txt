@@ -1,11 +1,24 @@
-pytest-mock==3.15.0
-cs50==9.2.5
+# Core Flask Dependencies
 Flask==2.3.3
 Flask-Session==0.5.0
+cs50==9.2.5
+SQLAlchemy==1.4.46
+
+# Test Dependencies
 pytest==7.4.2
 pytest-mock==3.15.0
 pytest-cov==4.1.0
-flake8==7.3.0
-safety==2.3.0
-bandit==1.7.5
+
+# Code Quality Tools
 black==23.7.0
+flake8==6.0.0
+isort==5.12.0
+pylint==2.17.4
+mypy==1.4.1
+
+# Security Tools
+safety==3.2.11
+bandit[toml]==1.7.9
+
+# Additional Dependencies
+coverage==7.2.7
