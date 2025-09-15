@@ -16,17 +16,17 @@ def mock_db(mocker):
             "image": "sample0.jpg",
             "typeClothes": "shirt",
             "description": "A test shirt",
-            "onSale": 1
+            "onSale": 1,
         }
     ]
-    mocker.patch('application.get_db', return_value=mock)
+    mocker.patch("application.get_db", return_value=mock)
     return mock
 
 
 @pytest.fixture
 def client(mock_db):
-    app.config['TESTING'] = True
-    app.config['WTF_CSRF_ENABLED'] = False  # Disable CSRF for testing
+    app.config["TESTING"] = True
+    app.config["WTF_CSRF_ENABLED"] = False  # Disable CSRF for testing
     with app.test_client() as client:
         yield client
 
@@ -34,12 +34,12 @@ def client(mock_db):
 def test_app_creation():
     """Test that Flask app can be created"""
     assert app is not None
-    assert app.name == 'application'
+    assert app.name == "application"
 
 
 def test_home_page(client, mock_db):
     """Test that home page loads successfully"""
-    rv = client.get('/')
+    rv = client.get("/")
     assert rv.status_code == 200
     # Verify database was queried for shirts
     mock_db.execute.assert_called_with("SELECT * FROM shirts ORDER BY onSalePrice ASC")
@@ -47,13 +47,13 @@ def test_home_page(client, mock_db):
 
 def test_login_page(client):
     """Test login page loads"""
-    rv = client.get('/login/')
+    rv = client.get("/login/")
     assert rv.status_code == 200
 
 
 def test_new_user_page(client):
     """Test new user registration page loads"""
-    rv = client.get('/new/')
+    rv = client.get("/new/")
     assert rv.status_code == 200
 
 
@@ -70,21 +70,27 @@ def test_buy_route_requires_parameters(client, mock_db):
     """Test buy route behavior with missing parameters"""
     # This should fail gracefully when parameters are missing
     with pytest.raises(Exception):
-        client.get('/buy/')
+        client.get("/buy/")
 
 
 def test_flask_routes_exist():
     """Test that all expected routes are registered"""
     routes = [rule.rule for rule in app.url_map.iter_rules()]
     expected_routes = [
-        "/", "/login/", "/cart/", "/register/", 
-        "/new/", "/buy/", "/logout/", "/filter/"
+        "/",
+        "/login/",
+        "/cart/",
+        "/register/",
+        "/new/",
+        "/buy/",
+        "/logout/",
+        "/filter/",
     ]
-    
+
     for route in expected_routes:
         assert route in routes, f"Route {route} not found in registered routes"
 
 
 def test_app_config_testing_mode():
     """Test app is properly configured for testing"""
-    assert app.config['TESTING'] is True
+    assert app.config["TESTING"] is True
