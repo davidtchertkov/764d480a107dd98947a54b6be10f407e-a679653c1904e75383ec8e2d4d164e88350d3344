@@ -1,4 +1,5 @@
 import pytest
+
 from application import app, get_db
 
 
