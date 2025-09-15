@@ -63,7 +63,7 @@ jobs:
           echo "✅ Import sorting is already correct"
         fi
     
-    - name: Linting with flake8 (warnings only)
+    - name: Linting with flake8
       run: |
         echo "Running flake8 linting..."
         flake8 . --count --statistics --show-source || echo "Flake8 found issues but continuing pipeline"
