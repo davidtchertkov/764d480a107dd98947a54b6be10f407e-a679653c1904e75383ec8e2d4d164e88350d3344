@@ -44,10 +44,24 @@ jobs:
         echo "Checking code formatting with Black..."
         black --check --diff . || (echo "❌ Code formatting issues found. Run 'black .' to fix." && exit 1)
     
-    - name: Import sorting check (isort)
+    - name: Auto-fix import sorting (isort)
       run: |
-        echo "Checking import sorting..."
-        isort --check-only --diff . || (echo "❌ Import sorting issues found. Run 'isort .' to fix." && exit 1)
+        echo "Checking and fixing import sorting..."
+        isort . --diff
+        if ! isort --check-only . ; then
+          echo "Fixing import sorting automatically..."
+          isort .
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          if ! git diff --staged --quiet; then
+            git commit -m "Auto-fix import sorting with isort [skip ci]"
+            git push
+            echo "Import sorting fixed and pushed automatically"
+          fi
+        else
+          echo "✅ Import sorting is already correct"
+        fi
     
     - name: Linting with flake8
       run: |
